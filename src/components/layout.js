@@ -5,7 +5,7 @@ const Layout = ({ location, title, pageTitle, children }) => {
   const rootPath = `${__PATH_PREFIX__}/`
   const currentPath = location.pathname
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
-
+  console.log(currentPath)
   const menus = [{
     name: 'About',
     link: '/'
@@ -62,7 +62,7 @@ const Layout = ({ location, title, pageTitle, children }) => {
             <ul className="lg:flex items-center h-full justify-between text-base lg:mb-0">
               {
                 menus.map(menu => (
-                  <li className="lg:mb-0"><Link to={menu.link} className={`${currentPath.startsWith(menu.link) ? 'border-b-2' : ''} text-black lg:p-4 py-3 px-0 hover:border-b-2 border-transparent border-stone-700`}>{menu.name}</Link></li>
+                  <li key={menu.name} className="lg:mb-0"><a href={menu.link} className={`${currentPath.startsWith(menu.link) ? 'border-b-2' : ''} text-black lg:p-4 py-3 px-0 hover:border-b-2 border-transparent font-mono border-stone-700`}>{menu.name}</a></li>
                 ))
               }
             </ul>

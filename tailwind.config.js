@@ -18,8 +18,9 @@ module.exports = {
       xl: '1013px',
     },
     fontFamily: {
-      sans: ['New York Medium', 'Graphik', 'sans-serif'],
-      serif: ['New York', 'serif'],
+      sans: ['-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+      serif: ['-apple-system-ui-serif', 'ui-serif', 'Georgia', 'serif'],
+      mono: ['ui-monospace', 'SFMono-Regular', 'ui-monospace', 'Monaco', 'Andale Mono', 'Ubuntu Mono', 'monospace']
     },
   },
   plugins: [
