@@ -9,18 +9,23 @@ const Layout = ({ location, title, pageTitle, children }) => {
   const menus = [{
     name: 'About',
     link: '/'
-  }, {
-    name: 'Projects',
-    link: '/project'
   },
+  // {
+  //   name: 'Projects',
+  //   link: '/project'
+  // },
   {
     name: 'Blogs',
     link: '/blog'
   },
+  // {
+  //   name: 'Experience',
+  //   link: '/experience'
+  // },
   {
-    name: 'Experience',
-    link: '/experience'
-  },
+    name: 'Resume',
+    link: 'https://flowcv.com/resume/au27lmofn4'
+  }
   ]
   return (
     // <div className="global-wrapper relative h-screen" data-is-root-path={isRootPath}>
@@ -64,7 +69,7 @@ const Layout = ({ location, title, pageTitle, children }) => {
           </nav>
         </div>
       </header>
-      <main className="flex flex-auto">
+      <main className="flex flex-auto mt-20">
         {children}
       </main>
     </div>
