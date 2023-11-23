@@ -12,15 +12,20 @@ module.exports = {
     title: `June' Blog`,
     author: {
       name: `Yanzhu Zhuo`,
-      summary: `a web developer from China but now live in Finland.`,
+      summary: `I'm a front-end developer from China and based in Espoo, Finland. I have developed many types of front-ends from mobile pages to lowcode platforms. With over 5 years of experience in the industry, I have honed my skills in creating dynamic and user-friendly websites.`
     },
     description: `June's profile and blog.`,
     siteUrl: `https://gatsbystarterblogsource.gatsbyjs.io/`,
     social: {
-      twitter: `junerzyz`,
+      github: `https://github.com/yzzhuo`,
+      linkedin: 'https://www.linkedin.com/in/yanzhu-zhuo-23b03428b/',
+      dribbble: `https://dribbble.com/junerzyz`,
+      instagram: `https://www.instagram.com/junerzyz/`,
+      twitter: `https://twitter.com/junerzyz`,
     },
   },
   plugins: [
+    'gatsby-plugin-postcss',
     `gatsby-plugin-image`,
     {
       resolve: `gatsby-source-filesystem`,
