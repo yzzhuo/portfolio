@@ -12,9 +12,10 @@ module.exports = {
     title: `June' Blog`,
     author: {
       name: `Yanzhu Zhuo`,
-      summary: `I'm a front-end developer from China and based in Espoo, Finland. I have developed many types of front-ends from mobile pages to lowcode platforms. With over 5 years of experience in the industry, I have honed my skills in creating dynamic and user-friendly websites.`
+      summary: `I am a front-end developer from China, now located in Finland. With six years of experience in development, I have worked with start-ups and major internet firms. I have created a range of websites, from tailor-made mobile pages to cross-platform desktop applications, as well as B2B products and low-code platforms. `,
+      content: 'I am enthusiastic about coding and have a particular interest in design. Currently, I am studying to be a product creator. In my leisure time, I enjoy spending time with my family, playing the guitar, and watching films.',
     },
-    description: `June's profile and blog.`,
+    description: `June's portfolio`,
     siteUrl: `https://gatsbystarterblogsource.gatsbyjs.io/`,
     social: {
       github: `https://github.com/yzzhuo`,

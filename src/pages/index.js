@@ -56,7 +56,7 @@ const Index = ({ data, location }) => {
               {author?.summary || null}
             </p>
             <p className="text-xl">
-              I'm also passionate about cutting-edge, pixel-perfect, beautiful interfaces and intuitively implemented UX.
+              {author?.content || null}
             </p>
             <SocialMedia />
           </div>
@@ -82,6 +82,7 @@ export const pageQuery = graphql`
         author {
           name
           summary
+          content
         }
         social {
           twitter

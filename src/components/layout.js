@@ -1,6 +1,6 @@
 import React from "react"
 import { useState, useRef } from "react"
-import { motion} from "framer-motion";
+import { motion } from "framer-motion";
 
 
 const Layout = ({ location, title, pageTitle, children }) => {
@@ -8,10 +8,10 @@ const Layout = ({ location, title, pageTitle, children }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const variants = {
-    open: { height: "auto", opacity: 1, visbility: 'visible' },
-    closed: { height: "0px", opacity: 0 },
+    open: { height: "auto", opacity: 1, display: 'flex' },
+    closed: { height: "0px", opacity: 0, display: 'none' },
   }
-  
+
   const menus = [{
     name: 'About',
     link: '/',
@@ -21,11 +21,11 @@ const Layout = ({ location, title, pageTitle, children }) => {
   //   name: 'Projects',
   //   link: '/project'
   // },
-  {
-    name: 'Blogs',
-    link: 'blog',
-    path: 'blog',
-  },
+  // {
+  //   name: 'Blogs',
+  //   link: 'blog',
+  //   path: 'blog',
+  // },
   // {
   //   name: 'Experience',
   //   link: '/experience'
@@ -44,7 +44,7 @@ const Layout = ({ location, title, pageTitle, children }) => {
           ))
         }
       </ul>
-  </nav>
+    </nav>
   )
   return (
     <div className="min-h-screen flex flex-col relative">
@@ -60,7 +60,7 @@ const Layout = ({ location, title, pageTitle, children }) => {
           <Nav />
         </motion.div>
         <div className="lg:flex items-center w-full justify-end hidden">
-         <Nav />
+          <Nav />
         </div>
       </header>
       <main className="flex flex-auto mt-18">
