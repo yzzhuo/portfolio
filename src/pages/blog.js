@@ -10,7 +10,7 @@ const BlogIndex = ({ data, location }) => {
   const noPost = posts.length === 0;
   return (
     <Layout location={location} title={siteTitle}>
-      <div className={`${noPost ? 'flex items-center' : ''} container`}>
+      <div className={`${noPost ? 'flex items-center' : ''} container pt-20`}>
         {posts.length === 0 ?
           <p className="text-xl">No blog posts found </p>
           : <ol style={{ listStyle: `none` }}>

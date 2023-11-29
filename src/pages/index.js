@@ -49,7 +49,7 @@ const Index = ({ data, location }) => {
               alt="Profile picture"
             />
           </div>
-          <div className="lg:mt-0 mt-8">
+          <div className="lg:mt-0 mt-8 px-6 pb-6">
             <span className="text-xl mb-4 font-mono">Hello, I'am</span>
             <h1 className="font-serif lg:text-8xl text-6xl p-0 m-0 font-bold">{author?.name}</h1>
             <p className="text-xl lg:mt-16 mt-4">
@@ -61,15 +61,6 @@ const Index = ({ data, location }) => {
             <SocialMedia />
           </div>
         </div>
-        {/* {author?.name && (
-          <p>
-            Written by <strong>{author.name}</strong> {author?.summary || null}
-            {` `}
-            <a href={`https://twitter.com/${social?.twitter || ``}`}>
-              You should follow them on Twitter
-            </a>
-          </p>
-        )} */}
       </div>
     </Layout>
   )

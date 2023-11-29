@@ -11,6 +11,7 @@
     "@fontsource-variable/montserrat": "^5.0.4",
     "@fontsource/merriweather": "^5.0.3",
     "@heroicons/react": "^2.0.18",
+    "framer-motion": "^10.16.5",
     "gatsby": "^5.12.4",
     "gatsby-adapter-netlify": "^1.0.3",
     "gatsby-plugin-feed": "^5.12.0",

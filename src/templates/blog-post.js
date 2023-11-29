@@ -12,7 +12,7 @@ const BlogPostTemplate = ({
 
   return (
     <Layout location={location} title={siteTitle}>
-      <div className="container" >
+      <div className="container pt-20 px-6" >
         <article
           className="blog-post mt-8"
           itemScope
