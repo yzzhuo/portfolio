@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Layout from '../components/layout';
-
+import Seo from '../components/seo';
 
 const AboutPage = () => {
   return (
@@ -12,8 +12,6 @@ const AboutPage = () => {
   )
 }
 
-export const Head: React.FC = () => <>
-  <title>About Page</title>
-  <meta name="description" content="Your description" />
-</>
+export const Head: React.FC = () => <Seo title="About Page" description="About Page" />
+
 export default AboutPage
