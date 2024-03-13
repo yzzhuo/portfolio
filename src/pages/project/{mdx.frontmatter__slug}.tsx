@@ -4,31 +4,33 @@ import Seo from '../../components/seo';
 import { graphql } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 
-const BlogPost = ({data, children}: {
+const Project = ({data, children}: {
   data: {
     mdx: {
       frontmatter: {
         title: string
         date: string
+        hero_image: {
+          childImageSharp: {
+            gatsbyImageData: any
+          }
+        }
       }
     }
   }
   children: React.ReactNode
 }) => {
+  const image = getImage(data.mdx.frontmatter.hero_image)
   return (
-    <Layout>
-      <header className='text-center'>
-        <h2 >{data.mdx.frontmatter.title}</h2>
-        <p>{data.mdx.frontmatter.date}</p>
-      </header>
-     
-      {/* <GatsbyImage image={image} alt={data.mdx.frontmatter.hero_image_alt} />
+    <Layout pageTitle={data.mdx.frontmatter.title}>
+      <p>Posted: {data.mdx.frontmatter.date}</p>
+      <GatsbyImage image={image} alt={data.mdx.frontmatter.hero_image_alt} />
       <p>
         Photo Credit:{" "}
         <a href={data.mdx.frontmatter.hero_image_credit_link}>
           {data.mdx.frontmatter.hero_image_credit_text}
         </a>
-      </p> */}
+      </p>
       {children}
     </Layout>
   )
@@ -42,8 +44,14 @@ export const query = graphql`
       frontmatter {
         title
         date(formatString: "MMMM DD, YYYY")
+        hero_image_alt
+        hero_image {
+          childImageSharp {
+            gatsbyImageData
+          }
+        }
       }
     }
   }
   `
-export default BlogPost
+export default Project

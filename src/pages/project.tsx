@@ -3,7 +3,7 @@ import Layout from "../components/layout"
 import Seo from "../components/seo"
 import { Link, graphql } from 'gatsby'
 
-const BlogPage = ({data}: {
+const ProjectPage = ({data}: {
   data: {
     allMdx: {
       nodes: {
@@ -19,18 +19,17 @@ const BlogPage = ({data}: {
   }
 }) => {
   return (
-    <Layout pageTitle="Blogs">
+    <Layout pageTitle="Projects">
         {
           data.allMdx.nodes.map(node => (
             <article key={node.id}>
-              <h3>
-                <Link to={`/blog/${node.frontmatter.slug}`} className="no-underline font-bold">
+              <h2>
+                <Link to={`/project/${node.frontmatter.slug}`}>
                   {node.frontmatter.title}
                 </Link>
-                </h3>
-                <div className="text-sm">
-                  <span>{node.frontmatter.date}</span>
-                </div>
+                </h2>
+              <p>Posted: {node.frontmatter.date}</p>
+              <p>{node.excerpt}</p>
             </article>
           ))
         }
@@ -40,12 +39,12 @@ const BlogPage = ({data}: {
 
 export const Head: React.FC = () => <Seo title="Blog Page" description="Blog Posts" />
 
-export default BlogPage
+export default ProjectPage
 
 export const query = graphql`
   query {
     allMdx(
-      filter: { internal: {contentFilePath: { regex: "/blog/" } } }
+      filter: { internal: {contentFilePath: { regex: "/project/" } } }
       sort: { fields: frontmatter___date, order: DESC }
     ) {
       nodes {

@@ -1,0 +1,146 @@
+---
+title: Understanding CSS - Box Model and Visual Formatting Context
+date: "2016-08-11"
+slug: "css-box-model"
+---
+
+CSS, or Cascading Style Sheets, often seems deceptively simple at first glance. Many of us, including my past self, might have thought, "It's just selectors and a few styles. I could learn it in no time!" Sure, a quick browse through W3Schools might make you feel like a CSS expert. But when it comes to real-world projects, you might find yourself scratching your head wondering why setting width and height values for elements doesn't always work, why two inline-block elements don't align at the same height, or why setting vertical-align: middle doesn't center elements vertically. It's in moments like these that you realize mastering CSS isn't as easy as you imagined. So, let's go back to basics and start from scratch!
+
+## CSS Box Model
+
+When a browser displays an element, it occupies a certain space. This space is defined by the CSS box model, consisting of four parts: the content area, padding, border, and margin.
+
+[![img](http://w3help.org/zh-cn/kb/006/006/boxdim.png)](http://w3help.org/zh-cn/kb/006/006/boxdim.png)
+
+As shown in the diagram above, the box model comprises padding, border, and margin, each with top, right, bottom, and left parts.
+
+### Relevant CSS Properties:
+
+#### Margin
+
+1. Margins can be applied to non-table elements and to table elements such as table-caption, table, and inline-table. For elements like td, tr, th, margins do not apply, and for inline non-replaced elements (like span), vertical margins don't work.
+2. Adjacent margins of different elements in the vertical direction may collapse under certain conditions. (Margin collapsing is indeed a topic of its own!)
+3. Margins can be negative, which can be quite useful.
+
+#### Padding
+
+1. Padding can be applied to elements except those with display values of 'table-row-group', 'table-header-group', 'table-footer-group', 'table-row', 'table-column-group', and 'table-column'.
+   
+#### Border
+
+Borders can be set with border-width, border-color, and border-style properties. They apply to any element.
+
+#### Pitfalls to Avoid
+
+In CSS, the width and height set refer to the content area's dimensions. Adding padding, border, and margin doesn't affect the content area's size but increases the size of the element's box. When designing page layouts, we should consider the size of the element's box.
+
+There are two box model standards. The first is the W3C standard box model used in normal rendering mode. The second is the IE box model used in quirks mode. Their differences are as follows:
+
+IE's box model includes padding and border in the element's width and height calculation, making the element's box size appear smaller than it actually is. (Try adding padding to an element with fixed width and height in IE's box model, and you'll see what I mean.)
+
+The CSS3 `box-sizing` property allows us to choose which box model to use:
+
+```css
+box-sizing: content-box|border-box|inherit;
+/* content-box —— default, uses the Standard box model
+   border-box —— uses the IE box model
+   inherit —— inherits the property value from its parent element */
+```
+
+## CSS Basic Concept 2: Visual Formatting Model
+
+The box model mentioned earlier is fundamental to CSS. HTML tags, when parsed by browsers, generate elements, each of which is added to the document DOM tree. However, CSS doesn't affect elements directly; it styles boxes. During the page rendering process, CSS generates a render tree based on the document DOM tree, and the box model represents nodes in this render tree.
+
+The CSS visual formatting model deals with mechanisms for handling documents and displaying them on visual media. It's a core concept of CSS. According to the CSS box model, every element in a document generates zero, one, or more boxes, based on the content, padding, border, and margin.
+
+Wait a minute! Can one element generate multiple boxes?
+Yes, indeed! For example, an `li` element generates both a primary block-level box and an additional box to contain its list item marker. However, in most cases, an element generates only one box.
+
+### Factors Affecting Layout
+
+- **Type and Size of Boxes**: The `display` property of elements determines the type of box they generate.
+- **Positioning Scheme**: Boxes are positioned based on three positioning schemes (normal flow, float, absolute positioning).
+- **Relationships between Elements in the Document Tree**: For example, the layout of a floating element may be affected by its preceding elements and the containing block.
+- **External Information**: Factors like the size of the viewport and the intrinsic dimensions of images can influence layout.
+
+### Containing Block
+
+In CSS 2.1, many calculations for positioning and sizing boxes depend on a rectangle boundary known as the containing block. A box is rendered relative to its containing block's boundaries. However, a box isn't confined within its containing block; if its layout extends beyond the containing block, it overflows.
+
+Usually, the containing block is established by an element's ancestor. But is the parent element always the containing block for its child elements? Not necessarily. Determining the containing block involves several criteria, which is quite a long story best summarized by a flowchart:
+
+![Containing Block Flowchart](http://w3help.org/zh-cn/kb/008/008/CB4.png)
+
+- The containing block for the root element is called the initial containing block, which depends on the user agent.
+- If an element's position is 'relative' or 'static,' its containing block is created by its nearest block-level, table, or inline-block ancestor's content box.
+- If an element has 'position: fixed,' its containing block is the current viewport.
+- For absolutely positioned ('position: absolute') elements, the containing block is created by its nearest positioned ancestor ('position: absolute,' 'position: relative,' or 'position: fixed'). If the ancestor is an inline element, the containing block's dimensions depend on the ancestor's 'direction' property.
+
+For detailed explanations, refer to [W3help's article on containing blocks](http://w3help.org/zh-cn/kb/008/).
+
+### Box Generation
+
+The process of generating boxes from document elements is part of the CSS visual formatting model's work. The `display` property determines the type of box generated, and the visual formatting model handles each type differently.
+
+#### Block-Level Elements and Block Boxes
+
+- Elements with `display: block`, `list-item`, or `table` are block-level elements. They visually display as blocks, stacked vertically. Each block-level element generates at least one principal block box, which can participate in any positioning scheme.
+- Block boxes participate in the Block Formatting Context (BFC).
+- Except for table boxes and replaced elements, most block boxes are also block container boxes.
+- Block container boxes either contain only block-level boxes or establish an Inline Formatting Context (IFC) and contain only inline-level boxes.
+- A block box isn't necessarily a block container box, and a block container box isn't necessarily a block box. A box that is both a block-level box and a block container box is called a block box.
+
+(Block-level boxes describe the behavior between an element and its parent and sibling elements, while block container boxes describe the impact between an element and its descendant elements.)
+
+**Anonymous Block Boxes**
+
+Consider this example:
+
+```html
+<div>Some inline text 
+<p>followed by a paragraph</p> 
+    followed by more inline text.
+</div>
+```
+
+The "Some inline text" and "followed by more inline text." will each be contained in an anonymous block box. Anonymous block boxes cannot be targeted by CSS selectors (all inheritable CSS property values are `inherit`, and all non-inheritable CSS property values are `initial`).
+
+Anonymous block boxes are created in two scenarios:
+
+1. When a block container box contains both inline-level and block-level boxes, anonymous block boxes are created to contain adjacent inline-level boxes.
+2. If an inline box contains one or more block boxes, the box containing the block boxes is split into two inline boxes, placed before and after the block box, respectively, and each of these inline boxes is contained in an anonymous block box.
+
+**Inline-Level Elements and Inline Boxes**
+
+- Elements with `display: inline`, `inline-block`, or `inline-table` are inline-level elements. They visually display inline, alongside other inline-level elements like `input` or `img`.
+- Inline-level elements generate inline boxes, participating in the Inline Formatting Context (IFC).
+- Inline boxes are either regular inline boxes or atomic inline-level boxes.
+- All boxes generated by elements with `display: inline` are inline boxes.
+- Replaced inline elements or elements with `display: inline-block` or `inline-table` generate atomic inline-level boxes. Atomic inline-level boxes cannot split into multiple lines within an Inline Formatting Context (IFC).
+
+![Inline Box Model](http://yangyong-test.qiniudn.com/wp-content/uploads/2014/11/inline-box.png)
+
+**Anonymous Inline Boxes**
+
+Similar to block boxes, CSS engines sometimes generate anonymous inline boxes. They are generated when a block box directly contains text, which will be contained within an anonymous inline box. If white space is removed using `white-space`, anonymous inline boxes will not be generated.
+
+**Line Boxes**
+
+Line boxes are boxes generated by the Inline Formatting Context (IFC) and are used to represent a line of text.
+
+Now, let's consider the `display` property values. Reflect on what types of boxes each value can generate, considering the knowledge we've covered:
+
+```css
+display: inline | block | list-item | inline-block | table | inline-table | table-row-group | table-header-group | table-footer-group | table-row | table-column-group | table-column | table-cell | table-caption | none | inherit;
+```
+
+Once boxes are generated, the CSS engine specifies their positions, which involves different positioning schemes. Let's leave that discussion for another blog post. Because, you know, I'm feeling quite hungry now... Thank you for patiently reading till the end!
+
+### References
+- [MDN - Visual Formatting Context](https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Visual_formatting_model)
+- [CSS Visualization Model - Blog by dolymood](http://blog.aijc.net/css/2014/08/06/CSS%20%E5%8F%AF%E8%A7%86%E5%8C%96%E6%A0%BC%E5%BC%8F%E6%A8%A1%E5%9E%8B%EF%BC%88Visual%20formatting%20model%EF%BC%89/)
+- [CSS Magic Hall - Re-understanding Box Model..](https://segmentfault.com/a/1190000004625635#articleHeader11)
+- [KB007: Visual Formatting Model](http://w3help.org/zh-cn/kb/007/)
+- [KB006: CSS Box Model](http://w3help.org/zh-cn/kb/006/)
+- [KB008: Containing Block](http://w3help.org/zh-cn/kb/008/)
+- [CSS2 BFC Model and IFC Model](http://www.yangyong.me/css2-bfc%E6%A8%A1%E5%9E%8B%E5%92%8Cifc%E6%A8%A1%E5%9E%8B/)

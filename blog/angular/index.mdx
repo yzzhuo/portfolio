@@ -1,0 +1,90 @@
+---
+title: Experiencing AngularJS - A First Encounter
+date: "2016-09-11"
+slug: "project-with-angularjs"
+summary: "test"
+---
+> When you decide to change something, you should know why you are doing it; this is crucial.
+
+Working on a project to revamp the operations dashboard during my internship, perhaps one of the most challenging tasks for me during this period, as it marked my first encounter with AngularJS. Through the process of learning while doing, I gained substantial insights. Hence, I wanted to capture some of my experiences in learning and using AngularJS for development (AngularJS 1.x version). Here, I primarily summarize my feelings about learning Angular. (Similar to a reflection, not a beginner's tutorial.)
+
+### Initial Impression of AngularJS
+
+Unlike React.js, AngularJS is a comprehensive front-end framework, encompassing templates, controllers, filters, services, and more. Its dependency injection system makes testing simpler. Here are a few profound points from my learning journey.
+
+#### Views and Directives
+
+AngularJS closely intertwines with HTML and the Document Object Model (DOM). It relies on the browser to parse template texts (similar to how browsers parse HTML documents). Once the browser creates a DOM tree from HTML, AngularJS steps in, traversing the parsed DOM structure. When it encounters directives, it executes relevant logic, transforming directives into dynamic parts of the page.
+
+Angular provides many traversal directives. However, what's crucial isn't just the syntax or functionality of these directives but the AngularJS philosophy hidden beneath the surface on how to construct UI components.
+
+AngularJS advocates for a declarative UI structure, focusing templates on describing the desired effects rather than implementations. For instance, consider the "real-time content display upon input" demo. AngularJS changes our programming approach gradually, as I discovered throughout the development process. Yet, I couldn't articulate this change until I read a passage from "Mastering AngularJS."
+
+AngularJS encourages a declarative programming style, freeing developers from strict low-level implementations. With Angular's support, developers are liberated from the burden of writing verbose, repetitive code. Except when implementing custom directives, we rarely manipulate the DOM during development.
+
+#### Scopes
+
+The `$scope` intrigued me. Although I've heard that Angular 2 deprecated it, I still want to discuss it and scopes within Angular.
+
+By using the `ng-controller` directive, a scope instance initializes. A scope governs which data and operations within the model are valid on the view, while controllers provide model's initial values and handle UI-related behaviors.
+
+AngularJS scopes also adhere to a hierarchical structure. `$rootScope` serves as the top-level scope, with each controller possessing its `$scope`. Each scope has its set of model values, and defining variables with the same name across different scopes doesn't cause naming conflicts. Similar to JavaScript's prototype-based rules, Angular's scope inherits, allowing child scopes to access parent scope variables and objects.
+
+However, scope hierarchy inheritance has its risks. While read operations behave as expected, write operations from child scopes don't affect parent scopes. Hence, it's essential to avoid directly binding variables to scope properties and instead opt for two-way data binding with object properties.
+
+**Scope Hierarchy and Event System**
+
+Angular propagates named events carrying information across scope hierarchies. Each scope has an `$on` method for registering event handlers. Angular supports upward propagation via `$emit` and downward propagation via `$broadcast`.
+
+#### Modules and Dependency Injection
+
+AngularJS provides a full suite of APIs for defining modules and registering objects within modules. It has a dependency injection system for declaring dependencies among modules and objects registered within them.
+
+The module pattern greatly aids in organizing code. Additionally, AngularJS offers a dependency injection system similar to what I encountered while learning Java EE, where dependency injection avoids high coupling by allowing objects to use other objects without directly instantiating them.
+
+AngularJS's built-in dependency injection engine understands an object's requirements for collaborating objects, locates the necessary collaborators, and connects them to form a complete application.
+
+By relying on this dependency management system, developers declare their dependencies and leave the instantiation to AngularJS, which resolves all dependencies and produces fully functional object instances. In summary, AngularJS modules hold object instances, with developers controlling object creation. AngularJS provides various ways to create objects:
+
+- **Value:** Useful for registering pre-initialized objects. This registration method is suitable only for very simple objects, as objects registered this way can't depend on other objects.
+- **Service:** Registers constructors, eliminating the need for dependent objects to initialize them.
+- **Factory:** Any function capable of creating objects can be registered, making it more flexible than services. Factories are the most commonly used method for injecting dependencies, enabling complex object creation logic.
+- **Constant:** Useful for creating shared services across different applications (e.g., configuration information customizable for service clients).
+- **Provider:** A more general form of all the above registration methods.
+
+**Module Lifecycle**
+
+AngularJS divides a module's lifecycle into two stages:
+
+- **Configuration Phase:** Collects object creation strategies and performs configurations.
+- **Run Phase:** Executes all post-initialization logic.
+
+During the configuration phase, only `constant` and `provider` injections run, while during the run phase, injections from `provider` objects can inject anything.
+
+### Conclusion
+
+There's no perfect framework; there's only the most suitable one. Understanding Angular's unique aspects helps us determine whether it's the right fit for a project. AngularJS's features can be summarized as follows:
+
+- **Automatic Refresh and Two-Way Data Binding:** Frees developers from the tedious task of triggering UI redraws explicitly.
+- **HTML-Based Dynamic DOM:** Serves as a template language that extends the existing HTML tag library through directive creation.
+- **Declarative UI Programming Style:** Concise and expressive.
+- **Dependency Injection:** Enhances testability.
+
+Learning and practicing Angular, I experienced a different approach to building UIs. Although jQuery is powerful, its code-centric approach makes managing mature, large, and interactive applications challenging.
+
+Despite hearing that learning Angular (1.x) is outdated and that React, Vue, and Angular 2 are the hottest trends, the returns I gained from learning and using Angular outweighed the investment. While Angular 1.x certainly has room for improvement, its emergence undoubtedly caused a stir in the web development ecosystem, sparking creativity among frontend developers regarding browser engines and development patterns.
+
+### Resources for My Angular Learning
+
+Online Resources:
+- [AngularJS Official Website](http://www.angularjs.org/)
+- [Angular Topics on Stack Overflow](http://stackoverflow.com/questions/tagged/angularjs)
+- [Awesome AngularJS](https://github.com/gianarb/awesome-angularjs)
+- [AngularJS Best Practices](https://github.com/mgechev/angularjs-style-guide/blob/master/README-zh-cn.md)
+
+Tools:
+- [AngularJS Batarang - Official Chrome Extension: Allows viewing scopes and performance](https://chrome.google.com/webstore/detail/angularjs-batarang/ighdmehidhipcmcojjgiloacoafjmpfk)
+
+Books:
+- "Learning AngularJS" by Brad Dayley
+- "Mastering Web Application Development with AngularJS" by Pawel Kozlowski & Peter Bacon Darwin (Highly recommended! Many insights in this article are derived from this book.)
