@@ -22,22 +22,20 @@ As frontend engineers, our daily work revolves around interacting with web brows
 ### Parsing
 
 HTML parsing involves transformation, tokenization, lexical analysis, and DOM construction. The final output is the Document Object Model (DOM). Let's dive into it with the following diagram:
-
-![HTML Parsing](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/images/full-process.png)
-
+![HTML Parsing](./html_parse.jpg)
 CSS parsing process is similar to HTML parsing:
 
-![CSS Parsing](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/images/cssom-construction.png)
+![CSS Parsing](./cssom-construction-steps.png)
 
 The final product of CSS parsing is CSSOM, roughly like this:
 
-![CSSOM](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/images/cssom-tree.png)
+![CSSOM](./cssom-tree.png)
 
 ### Render Tree Generation
 
 DOM and CSSOM merge to form the render tree. This rendering only includes nodes required for rendering the page and the style information of these visible contents. The process involves traversing every visible node starting from the root node of the DOM tree, finding matching CSSOM rules for each visible node, applying these rules, and finally generating a render tree consisting of visible nodes, along with their content and computed styles.
 
-![Render Tree Construction](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/images/render-tree-construction.png)
+![Render Tree Construction](./dom-cssom-are-combined.png)
 
 ### Layout
 

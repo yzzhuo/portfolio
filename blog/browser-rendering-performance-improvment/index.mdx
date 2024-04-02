@@ -1,6 +1,6 @@
 ---
 title: Browser Rendering Performance Analysis and Optimization
-date: "2016-12-01"
+date: "2016-12-02"
 slug: "browser-rendering-performance-analysis-and-optimization"
 ---
 
@@ -15,15 +15,15 @@ The Chrome Developer Tools' Timeline. ([Link to Usage Guide](https://developers.
 
 ### Metrics
 
-##### 60fps
+**60fps**
 
 Most devices today have a screen refresh rate of 60 times per second. Synchronizing browser rendering with the device's screen refresh rate ensures a smooth user experience. This implies that each frame's rendering task should be completed within 16ms.
 
-##### Critical Rendering Path
-
+#### Critical Rendering Path
+The Critical Rendering Path in a web browser is the sequence of steps the browser takes to convert HTML, CSS, and JavaScript into the pixels on the screen. It includes processes such as parsing HTML, constructing the DOM (Document Object Model), calculating styles, laying out elements, painting pixels, and rendering the final website. Optimizing the critical rendering path is essential for improving website performance and ensuring fast loading times for users. This involves techniques such as minimizing render-blocking resources, optimizing CSS and JavaScript, and prioritizing visible content to be rendered first.
 ### Preliminary Diagnosis Using Chrome's Timeline
 
-[![img](https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/imgs/timeline-annotated.png)](https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/imgs/timeline-annotated.png)
+![img](./devtool_timeline.png)
 
 The image above shows the timeline analysis panel. Key points from top to bottom:
 

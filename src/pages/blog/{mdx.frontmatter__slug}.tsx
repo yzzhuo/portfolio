@@ -20,7 +20,7 @@ const BlogPost = ({data, children}: {
       <article className="prose lg:prose-lg">
         <header className='text-center'>
           <h2 >{data.mdx.frontmatter.title}</h2>
-          <p>{data.mdx.frontmatter.date}</p>
+          <p className="font-thin text-sm">{data.mdx.frontmatter.date}</p>
         </header>
      
       {/* <GatsbyImage image={image} alt={data.mdx.frontmatter.hero_image_alt} />
