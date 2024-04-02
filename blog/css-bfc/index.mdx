@@ -1,0 +1,75 @@
+---
+title: Understanding CSS BFC - Understanding CSS Formatting Context
+date: "2016-08-10"
+slug: "css-bfc"
+---
+
+# Demystifying BFC: Understanding CSS Formatting Contexts
+
+Yesterday, I experienced a somewhat somber phone interview with Baidu (an interview I'll address later with a touch of humor). When asked about BFC (Block Formatting Context), I was dumbfounded. Last night, I delved into numerous articles about BFC on Google. Finally grasping the concept of BFC, I felt an urge to pen down a blog post! (Furious!)
+
+Before diving into the intricacies of BFC, let's elucidate the meaning of FC (Formatting Context) in those two letters.
+
+**FC (Formatting Context)**: According to the W3C CSS2.1 specification, it's a rendering area within a webpage with a set of rendering rules. It determines how its child elements will be positioned and interact with other elements.
+
+Now, let's focus on:
+
+## BFC
+
+> "Floats, absolutely positioned elements, inline-blocks, table cells, and table captions create a new BFC for their contents."
+
+### Characteristics of BFC
+
+1. Boxes inside a BFC are placed vertically, one after the other.
+2. Vertical margins between boxes within the same BFC collapse.
+3. The left margin of each box touches the left border of its containing box.
+4. BFC areas do not overlap with float boxes.
+5. BFC acts as a isolated container, unaffected by external elements.
+6. When calculating the height of a BFC, floated elements are also taken into account.
+
+### Conditions to Create a New BFC
+
+By definition, a new BFC can be created when an element meets one of the following conditions:
+
+- `float`: left|right
+- `position`: absolute|fixed
+- `display`: table-cell|table-caption|inline-block
+- `overflow`: hidden|scroll|auto
+
+### Functions and Use Cases of BFC
+
+1. Clearing internal floats.
+2. Resolving margin collapsing issues.
+3. Implementing multi-column layouts.
+
+Now that we've established the basics, let's address some thought-provoking questions:
+
+### Extended Considerations
+
+1. **Does BFC exist when there are only a few divs on the page?**
+
+   Yes, because when you add two divs, you'll notice they are stacked vertically, and their vertical margins overlap, which aligns with BFC characteristics. This indicates that the root element (`html`) generates a default BFC for its descendant block-level boxes.
+
+2. **Why does creating a BFC seem unrelated to block-level elements, despite it being called Block Formatting Context?**
+
+   While it's true that elements with `display: block` or `display: table` generate block-level boxes, the concept of BFC mainly revolves around creating a new BFC to achieve the desired layout and formatting.
+
+3. **Why does the height of a parent element collapse when it contains floated elements? Adding `overflow: hidden|auto` seems to fix it, but how?**
+
+   Initially, the collapse of the parent element's height with floated elements is due to how block-level boxes calculate their heights. However, creating a new BFC with `overflow` solves this issue by ensuring:
+
+   - No margin collapsing occurs.
+   - Out-flow boxes contribute to the height of block-level boxes.
+   - No overlap with sibling boxes with a positioning scheme of `float`.
+
+### Conclusion
+
+Exploring BFC not only sheds light on its functionality but also unravels some previously puzzling questions. As I embark on this journey of understanding CSS, I realize that while CSS may seem simple to grasp initially, mastering it is a different story (much like frontend development). Understanding the principles behind CSS layouts and effects is crucial for unlocking its true potential and making significant strides in web development.
+
+In closing, I'd like to express my gratitude to the giants who enable us to see farther.
+
+References:
+- [Demystifying BFC, IFC, GFC, and FFC](http://www.xiaomeiti.com/note/3608)
+- [In-depth Analysis of BFC in CSS](http://www.html-js.com/article/1866)
+- [CSS Magic: Rediscovering Box Model, IFC, BFC, and Collapsing Margins](https://segmentfault.com/a/1190000004625635#articleHeader11)
+- [W3C Definition of BFC](https://www.w3.org/TR/CSS2/visuren.html#block-formatting)

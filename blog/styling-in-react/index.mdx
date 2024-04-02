@@ -1,0 +1,129 @@
+---
+title: Styling in React - Exploring Different Approaches
+date: "2017-06-20"
+slug: "styling-in-react"
+---
+Lately, I've been working on React applications, and previously, I tended to opt for simplicity by using inline styles. However, with some free time on my hands, I decided to summarize alternative and more efficient methods for styling in React beyond inline styles.
+
+1. **Classnames Library**
+
+   This library facilitates dynamically setting class names for components.
+
+   ```javascript
+   import React, { Component } from 'react';
+   import classNames from 'classnames';
+
+   class Button extends Component {
+     render() {
+       const btnClass = classNames({
+         'btn': true,
+         'btn-pressed': this.state.isPressed,
+         'btn-over': !this.state.isPressed && this.state.isHovered,
+       });
+       return <button className={btnClass}>{this.props.label}</button>
+     }
+   }
+   ```
+
+2. **CSS Modules**
+
+   CSS Modules solve the problem of component styling scope and dependency management.
+   Usage:
+   The webpack `css-loader` has built-in CSS Modules functionality. To enable CSS Modules, you need to configure webpack to enable CSS Modules:
+
+   ```javascript
+   css?modules&localIdentName=[name]__[local]-[hash:base64:5]
+   ```
+
+   Where adding `modules` enables CSS Modules, and `localIdentName` sets the naming convention for styles.
+   Next, import the CSS styles into the component file and use them.
+
+   ```css
+   .normal {
+     color: #eee;
+   }
+   ```
+
+   ```javascript
+   import style from './styles.css';
+
+   class Button extends Component {
+     render() {
+       return <button className={style.normal}></button>
+     }
+   }
+   ```
+
+   **Additional Notes:**
+
+   1. **Global Styles:** By default, CSS Modules adopt local styles, meaning styles are encapsulated within components. You can use `:global` to implement global styles.
+
+      ```css
+      :global(.btn) {
+        ...
+      }
+      ```
+
+   2. **Style Reuse:** Use `compose` to reuse styles.
+
+      ```css
+      .base {
+        // generic styles
+      }
+      .normal {
+        composes: base;
+        // unique styles for normal
+      }
+      ```
+
+   3. **CSS Modules only transform class-related styles, meaning only class selectors are affected. ID selectors or other attribute selectors are not transformed by CSS Modules.**
+
+   4. **Combining CSS Modules with classNames in React:**
+
+      ```javascript
+      import className from 'classnames';
+      import styles from './styles.css';
+
+      class Dialog extends Component {
+          render() {
+            const cx = classNames({
+              confirm: !this.state.disabled,
+              disabledConfirm: this.state.disabled,
+            });
+            return (
+              <div className={styles.root}>
+                <a className={styles[cx]}>Confirm</a>    
+              </div>
+            )
+          }
+      }
+      ```
+
+   5. **Using the react-css-modules library to avoid repetitive entry of `styles.xx`:**
+
+      ```javascript
+      import CSSModules from 'react-css-modules';
+      ...
+      return (
+        <div styleName={root}>
+          <a styleName={cx}>Confirm</a>    
+        </div>
+      )
+      export default CSSModules(Dialog, styles);
+      ```
+
+**Other:**
+
+Facing errors when importing CSS files in TypeScript?
+
+Solution: Add a module definition to inform TypeScript that it can import CSS files.
+
+```javascript
+// declaration.d.ts
+declare module '*.css' {
+    const content: any;
+    export default content;
+}
+```
+
+With these alternatives in mind, styling React components becomes more flexible and efficient, enabling better management of styles across the application.

@@ -1,0 +1,72 @@
+---
+title: Singleton Pattern in JavaScript - Singleton
+date: "2017-06-23"
+slug: "design-patterns"
+---
+
+Creating a unique object using the Singleton pattern is often employed to manage shared resources such as database connections or thread pools. Additionally, it ensures that a resource exists globally in only one instance. The simplicity of the Singleton pattern, coupled with its lazy loading feature, renders it highly practical in development.
+
+## Definition
+
+The Singleton pattern ensures that a class has only one instance and provides a global access point to it.
+
+## Implementation
+
+It utilizes a variable to flag whether a class has already been instantiated and doesn't directly use `new` to obtain an instance but rather utilizes a method like `getInstance` to retrieve the object instance.
+
+```javascript
+var Singleton = function() {
+  this.instance = null;
+}
+Singleton.prototype.getInstance = function(){
+  if(!this.instance) {
+    this.instance = new Singleton();
+  }
+  return this.instance;
+};
+var a = Singleton.getInstance();
+var b = Singleton.getInstance();
+console.log(a === b); // true
+```
+
+### Preventing Multiple Instantiation
+
+In Java, one approach is to make the constructor private to prevent instantiation by others. Similarly, in JavaScript, we can achieve privacy using closures.
+
+## JavaScript's Singleton Pattern
+
+In JavaScript, we can use a global variable to simulate the Singleton pattern. By creating a global object accessible throughout the code, we can determine if the object has been initialized to implement the Singleton pattern. However, using global variables introduces issues like namespace pollution. To mitigate this, we can employ the following methods:
+
+1. Using Object Literals:
+
+   ```javascript
+   var namespace = {
+     a: function(){...},
+     b: function(){...}
+   }
+   ```
+
+2. Encapsulating Private Variables with Closures:
+
+   ```javascript
+   var a = (function(){
+     var __instance = new Singleton();
+     return {
+       getInstance: function(){
+         return __instance;
+       }
+     }
+   }) ();
+   ```
+
+## Lazy Singleton
+
+In real-world scenarios, we often use a Singleton pattern where an instance is created only when needed, known as lazy initialization.
+
+Consider a login box on a webpage—it's unique and should only appear once. Therefore, it's an ideal candidate for the Singleton pattern. Moreover, if the user doesn't click the login button, the box won't appear. Thus, we should instantiate it only when necessary to accelerate page loading.
+
+By segregating the responsibility of object creation and singleton management into two separate methods, combining them makes the use of the Singleton pattern more aligned with the Single Responsibility Principle.
+
+## Conclusion
+
+In design patterns, we frequently encounter the need to isolate what varies from what remains constant, segregating business logic from irrelevant logic. While studying design patterns, it often seems straightforward when reading books or seeing examples provided by others. However, when attempting to refactor previously written code with newfound patterns, one realizes that practical implementation isn't as simple as it seems. Discerning how to segregate code to achieve reusability while maintaining readability is key. Though crafting elegant code is a journey with many challenges, learning design patterns truly makes coding an intriguing endeavor!

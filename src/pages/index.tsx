@@ -7,32 +7,31 @@ import { graphql, Link } from "gatsby"
 import { getImage, GatsbyImage } from 'gatsby-plugin-image'
 
 const IndexPage: React.FC<PageProps> = ({data}) => {
-  const { author, works } = data.site.siteMetadata;
+  const { author, works, resume } = data.site.siteMetadata;
   const projects = data.projects.nodes;
   const blogs = data.blogs.nodes;
-  console.log('---', projects)
   return (
     <Layout>
       <div className="flex justify-center flex-col mt-12 items-center">
         <StaticImage
             class="w-24 h-24 rounded-full"
-            alt="Clifford, a reddish-brown pitbull, posing on a couch and looking stoically at the camera"
-            src="../images/clifford.webp"
+            alt="June's avatar"
+            src="../images/june.jpg"
           />
-        <h1 className="mt-4 mb-2">Hi, I'm {author.name}👋</h1>
+        <h1 className="mt-4 mb-2 text-3xl font-bold">Hi, I'm {author.name}👋</h1>
         <p className="mt-0 pt-0">{author.summary}</p>
       </div>
        
        <section className="mt-12">
-          <h3>EXPERIENCE</h3>
+          <h3 className="font-bold text-xl py-4">EXPERIENCE</h3>
           {
             works.map((work, index) => (
-              <div key={index} className="grid grid-cols-12 flex-nowrap">
+              <div key={index} className="grid grid-cols-12 flex-nowrap mb-8">
                 <header aria-label={work.date} className="text-sm col-span-3">{work.date}</header>
                 <div className="col-span-9">
-                  <header className="flex gap-4">
-                    <h4 className="text-lg font-bold mt-0">{work.title}</h4> 
-                    <span className="font-bold">{work.role}</span>
+                  <header className="flex gap-4 items-center">
+                    <h4 className="text-lg font-bold mt-0">{work.role}</h4> 
+                    <a className="underline cursor-pointer" href={work.link} target="_blank" rel="noreferrer">@{work.title}</a>
                   </header>
                   <p className="mt-0 text-sm">{work.description}</p>
                   <ul className="mt-2 flex gap-2 ml-0 pl-0">
@@ -45,24 +44,24 @@ const IndexPage: React.FC<PageProps> = ({data}) => {
             ))
           }
           <div className="flex justify-end">
-            <a href="/about" className="link text-sm mt-4">View Full Resume</a>
+            <a href={resume}  target="_blank" rel="noreferrer" className="link text-sm mt-4">View Full Resume</a>
           </div>
         </section>
 
         <section className="mt-12">
-          <h3>PROJECTS</h3>
+          <h3 className="font-bold text-xl py-4">PROJECTS</h3>
           <div className="flex flex-col gap-3">
           {
             projects.map((project, index) => {
               const data = project.frontmatter
               const image = getImage(data.hero_image)
               return (
-                <div className="w-full flex items-center shadow-md p-2 rounded-2xl hover:ring-2 cursor-pointer gap-4">
-                  <figure className="w-40 my-0">
-                    <GatsbyImage image={image} />
+                <div className="w-full h-32 flex items-center shadow-md p-2 rounded-2xl hover:ring-2 cursor-pointer gap-4">
+                  <figure className="w-40 my-0 h-28">
+                    <GatsbyImage image={image}  className="h-full" objectFit="contain"/>
                   </figure>
                   <div className="pl-4">
-                    <h4 className="">{data.title}</h4>
+                    <h4 className="text-lg font-bold mt-0">{data.title}</h4>
                     <p>{data.summary}</p>
                   </div>
               </div>
@@ -76,7 +75,7 @@ const IndexPage: React.FC<PageProps> = ({data}) => {
         </section>
 
         <section className="mt-12">
-          <h3>WRITINGS</h3>
+          <h3 className="font-bold text-xl py-4">WRITINGS</h3>
           <ul className="flex flex-col gap-3 p-0">
             {
               blogs.map((blog, index) => {
@@ -93,7 +92,7 @@ const IndexPage: React.FC<PageProps> = ({data}) => {
             }
           </ul>
           <div className="flex justify-end">
-            <a href="/blog" className="link text-sm mt-4">Older Posts</a>
+            <a href="/blog" className="link text-sm mt-4">View More</a>
           </div>
         </section>
     </Layout>
@@ -114,8 +113,10 @@ export const query = graphql`
           title
           summary
         }
+        resume
         works {
           title
+          link
           role
           date
           description
@@ -126,6 +127,7 @@ export const query = graphql`
    projects: allMdx(
       filter: { internal: {contentFilePath: { regex: "/project/" } } }
       sort: { fields: frontmatter___date, order: DESC }
+      limit: 2
     ) {
       nodes {
         frontmatter {
@@ -146,6 +148,7 @@ export const query = graphql`
     blogs: allMdx(
       filter: { internal: {contentFilePath: { regex: "/blog/" } } }
       sort: { fields: frontmatter___date, order: DESC }
+      limit: 5
     ) {
       nodes {
         frontmatter {

@@ -19,7 +19,7 @@ const Layout = ({pageTitle, children} : {
     <div className="max-w-screen-md mx-auto mb-12">
       <nav className="navbar w-full">
         <div className="navbar-start">
-         <header><Link className="font-bold text-xl" to="/">{data.site.siteMetadata.title}</Link></header>
+         <header><Link className="font-bold text-xl hover:text-primary" to="/">{data.site.siteMetadata.title}</Link></header>
         </div>
         <div className="navbar-end hidden lg:flex">
           <ul className="menu menu-md menu-horizontal px-1">              
@@ -32,14 +32,14 @@ const Layout = ({pageTitle, children} : {
             <li>
               <Link to="/blog">Blog</Link>
             </li>
-            <li>
+            {/* <li>
               <Link to="/about">About</Link>
-            </li>
+            </li> */}
           </ul>
       </div>
       </nav>
-      <main className="prose py-8">
-        {pageTitle && <h2 className="text-center text-primary">{pageTitle}</h2>}
+      <main className="py-8">
+        {pageTitle && <h2 className="mt-4 mb-12 text-2xl font-bold text-center text-primary">{pageTitle}</h2>}
         {children}
       </main>
       <footer className="footer mt-12 footer-center p-4">

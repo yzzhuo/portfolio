@@ -6,7 +6,7 @@ const AboutPage = () => {
   return (
     <Layout pageTitle="About Page">
       <p>Hi there!
-        My name is Gatsby and I'm a static site generator for React.
+        My name is June
       </p>
     </Layout>
   )

@@ -1,0 +1,35 @@
+---
+title: Understanding CSS - Box Model and Visual Formatting Context
+date: "2017-06-01"
+slug: "css-drop-shadow"
+---
+
+# Unveiling CSS Drop Shadow: An Alternative to Box Shadow
+Last week, while working on styling, the UI designer handed me a PNG image with a request to implement shadows. My immediate solution was to use `box-shadow`. However, upon implementation, I realized that although the image resembled a circle, in CSS it was treated as a box, resulting in a rectangular shadow disconnected from the image itself. It was quite embarrassing! Luckily, I stumbled upon something called `drop-shadow` online, which could address this issue perfectly.
+
+`drop-shadow` is not a standalone CSS property but rather a part of CSS filters.
+
+### Usage
+
+```css
+filter: drop-shadow(<offset-x> <offset-y> <?blur-radius> <?spread-radius> <?color>)
+```
+
+Parameters:
+
+- `offset-x`: Horizontal offset. Negative values move the shadow left.
+- `offset-y`: Vertical offset. Negative values move the shadow up.
+- `blur-radius`: Controls the blur level. Larger values result in more blur.
+- `spread-radius`: Determines the size of the shadow expansion.
+- `color`: Shadow color.
+
+### Drawbacks
+
+Although CSS standards include some pre-defined functions, compatibility across browsers, including older versions of IE, must be considered carefully. This is because older versions (4-9) of IE support their own non-standard `filter` property.
+
+### Resources
+
+- [MDN-CSS: filter](https://developer.mozilla.org/en-US/docs/Web/CSS/filter?v=control)
+- [CSS3 filter: drop-shadow Filter vs box-shadow Application](http://www.zhangxinxu.com/wordpress/2016/05/css3-filter-drop-shadow-vs-box-shadow/)
+
+By leveraging CSS drop shadow, we can achieve more accurate shadow effects for various shapes and elements, enhancing the visual appeal and user experience of our web applications.

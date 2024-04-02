@@ -17,10 +17,11 @@ const BlogPost = ({data, children}: {
 }) => {
   return (
     <Layout>
-      <header className='text-center'>
-        <h2 >{data.mdx.frontmatter.title}</h2>
-        <p>{data.mdx.frontmatter.date}</p>
-      </header>
+      <article className="prose lg:prose-lg">
+        <header className='text-center'>
+          <h2 >{data.mdx.frontmatter.title}</h2>
+          <p>{data.mdx.frontmatter.date}</p>
+        </header>
      
       {/* <GatsbyImage image={image} alt={data.mdx.frontmatter.hero_image_alt} />
       <p>
@@ -29,7 +30,8 @@ const BlogPost = ({data, children}: {
           {data.mdx.frontmatter.hero_image_credit_text}
         </a>
       </p> */}
-      {children}
+        {children}
+      </article>
     </Layout>
   )
 }

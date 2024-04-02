@@ -1,0 +1,98 @@
+---
+title: Design Pattern in JavaScript - Prototype Pattern
+date: "2017-06-23"
+slug: "prototype-design-patterns"
+---
+My previous learning and practice with design patterns were primarily based on Java. Although design patterns are language-agnostic and essentially provide specific solutions and design approaches to particular problems, I've gained a deeper understanding lately, thanks to "JavaScript Design Patterns and Development Practices" by Stoyan Stefanov. One key realization is that while design patterns boil down to solutions and design approaches for specific problems, they were later coined with names. However, learning about design patterns is essential because knowing the available design patterns helps us evaluate the quality of our code and understand how to use the appropriate design patterns to enhance it.
+
+The essence of design patterns remains the same across languages, but the implementation may vary depending on the language's features. For instance, achieving polymorphism, inheritance, and encapsulation in JavaScript differs from Java.
+
+After reading the book mentioned above, I've compiled several design patterns applicable to JavaScript. Let's start with the Prototype pattern.
+
+## Prototype Pattern
+
+### Introduction
+
+In design patterns, the Prototype pattern is used to create objects. We can use the Prototype pattern to create an object identical to an existing one. However, typically, its purpose is to facilitate the creation of a certain type of object more conveniently. In Java, object creation involves specifying its type first and then creating an object based on the class concept. However, in a language like JavaScript, which lacks classes, we typically find an object and then clone it to create another object.
+
+Although ES6 introduced `class` for creating a class, its essence remains prototype-based.
+
+### Application in JavaScript
+
+PS: JavaScript lacks the concept of classes; it only has objects. However, to differentiate between different objects serving different roles, we often prefix objects with capital letters to indicate they are "classes" (abstract objects), while objects starting with lowercase letters represent specific instances.
+
+#### Creating Objects and Achieving Inheritance
+
+- Using `new` to create objects: In JavaScript, a constructor is essentially a function.
+
+  JavaScript lacks the concept of classes, but functions are first-class citizens. Functions in JavaScript can be invoked as regular functions or as constructors. When we create objects using `new`, we're actually invoking a function as a constructor. Invoking a constructor with `new` is akin to cloning an object.
+
+- Objects remember their prototypes. Precisely, it's not that an object has a prototype, but its constructor has one. Objects delegate requests to their prototypes. JavaScript provides a hidden property named `__proto__`, which Chrome and Firefox can expose externally. By default, this property points to the prototype object of its constructor.
+
+  ```javascript
+  var a = new Object();
+  console.log(a.__proto__ === Object.prototype); // Outputs: true
+  ```
+
+- Because `__proto__` remembers the prototype of the constructor, we say objects remember their prototypes and achieve inheritance through prototypes.
+- Though initially, all JavaScript objects are cloned from `Object.prototype`, the prototype of an object's constructor can dynamically point to another object. When we want to create an object A that inherits from B, simply set the prototype of object A's constructor to object B, achieving inheritance.
+- Most common inheritance patterns in JavaScript:
+
+```javascript
+var obj = { name: 'june' };
+var A = function() {};
+A.prototype = obj;
+var a = new A();
+console.log(a.name); // Outputs: june
+```
+
+```javascript
+// One class inherits another
+var A = function() {}
+A.prototype = { name: 'sven' };
+var B = function() {}
+B.prototype = new A();
+var b = new B();
+console.log(b.name); // Outputs: sven
+```
+
+- The purpose of both code snippets is the same, and there's no fundamental difference. The only distinction is that one directly assigns `B.prototype` to a literal object, while the other assigns it to `new A()`, resulting in an additional layer in the prototype chain.
+
+- `Object.create` method: I typically use it to create an object based on an existing one. However, accurately, it implements a form of inheritance known as prototypal inheritance.
+
+  This method is equivalent to:
+
+  ```javascript
+  function O(obj) {
+    var F = function() {
+      F.prototype = obj;
+      return new F();
+    }
+  }
+  var a = Object.create({}); // a.prototype is Object;
+  var b = Object.create(null); // b.prototype is null;
+  ```
+
+#### Thought Exercise
+
+- Having trouble distinguishing between `prototype`, `constructor`, and `__proto__`?
+
+  - The `prototype` property is read-write and specific to functions. It's designed for constructors. It's a pointer that refers to an object containing properties and methods shared by all instances created by a specific constructor.
+  - The `constructor` property of an instance object points back to its constructor function.
+  - The `__proto__` property of an instance object points to its constructor's prototype object.
+
+  Practice is the only truth:
+
+  - ![img](http://ww1.sinaimg.cn/large/63739cabgy1fgpk7qyezxj20ck0ebdgm.jpg)
+
+  - Why is it said that using `Object.create` to create objects is slower than using constructors in the current JavaScript engine?
+
+    To be continued...
+
+  - What are the other ways to create objects in JavaScript?
+
+    To be continued...
+
+### Conclusion
+
+While reading "The Red Book" and "The Rhino Book" before, I often found myself feeling confused when encountering the chapters on object inheritance and prototypes. However, after learning about the Prototype pattern, it now seems that JavaScript essentially relies on the Prototype pattern to construct its entire object-oriented system since JavaScript lacks the concept of classes, let alone inheritance. In practice, to achieve inheritance in JavaScript, we leverage the prototype mechanism. All JavaScript objects are cloned from some existing object. The term "prototype" accurately describes this mechanism. If object A is cloned from object B, then object B is the prototype of object A.

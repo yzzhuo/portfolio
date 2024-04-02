@@ -1,0 +1,111 @@
+---
+title: Implementing Client Auto-Update Solution with electron-autoupdater
+date: "2018-03-14"
+slug: "implementing-client-auto-update-solution-with-electron-autoupdater"
+---
+
+In this tutorial, we'll explore an auto-update solution based on electron-autoupdater. After examining both the native autoUpdater module in Electron's documentation and the autoUpdater paired with electron-builder, we opted for the latter due to its simplicity and consistent implementation across macOS and Windows.
+
+## Objective
+
+The goal is to automatically check for updates upon application launch. If an update is available, prompt the user to install it. Upon user confirmation, the application should download the latest installation package. After downloading, prompt the user to restart the application to launch the latest version.
+
+## Implementation Steps
+
+1. Install the electron-updater dependency in your project.
+
+2. Add the following code to your main.js file:
+
+   ```javascript
+   const { autoUpdater } = require("electron-updater");
+   const { app, dialog } = require('electron');
+
+   // Check if an update is available
+   autoUpdater.on('update-available', (ev, info) => {
+     dialog.showMessageBox({
+       type: 'info',
+       title: 'Found Updates',
+       message: 'Found updates, do you want to update now?',
+       buttons: ['Sure', 'No']
+     }, (buttonIndex) => {
+       if (buttonIndex === 0) {
+         // Download the latest installation package
+         autoUpdater.downloadUpdate()
+       }
+     });
+   })
+
+   // Error handling for auto-update
+   autoUpdater.on('error', (ev, err) => {
+     console.log('Error in auto-updater.');
+   })
+
+   // Progress monitoring during download
+   autoUpdater.on('download-progress', (ev, progressObj) => {
+     console.log('Download progress...');
+   })
+
+   // After installation completion
+   autoUpdater.on('update-downloaded', (ev, info) => {
+     dialog.showMessageBox({
+       title: 'Install Updates',
+       message: 'Updates downloaded, application will be quit for update...'
+     }, () => {
+       setImmediate(() => autoUpdater.quitAndInstall())
+     })
+   });
+
+   app.on('ready', function()  {
+     // ....
+     // Initiate automatic version check on app ready
+     autoUpdater.checkForUpdates();
+   });
+   ```
+
+3. Configure package.json by adding a publish field in the build section. The URL should point to the JSON/YML file containing the latest version information and installation package.
+
+   ```json
+   "build": {
+     ...
+       "publish": [
+         {
+           "provider": "generic",
+           "url": "https://localhost:8080/releases"
+         }
+       ],
+   }
+   ```
+
+4. Use electron-builder to package the installation files into the dist directory. The dist directory should contain files like:
+
+   ```
+   --dist
+    client-1.2.1.dmg
+    client-1.2.1-mac.zip
+    latest-mac.json
+    latest-mac.yml
+    client-1.2.1.exe
+   ```
+
+5. Host the resources from the dist directory on a static server accessible via the seedUrl set in step 3.
+
+## Testing Steps
+
+1. Package an installation package.
+2. Increase the version number and package another installation package.
+3. Update the files on the static resource server with the ones packaged in step 2.
+4. Install the first installation package, open it, and observe the update prompt. Download the latest installation package, install it, and restart the application.
+
+## Additional Considerations
+
+1. If using the `electron` command directly to start the application, you may encounter a dev-app-update.yml error in the root directory. You need to manually add the dev-app-update.yml file with content like:
+
+   ```
+   version: 1.X.X
+   provider: generic
+   url: seedURL
+   ```
+
+2. Directly starting the application with Electron for testing may result in codesigning errors on macOS. Refer to https://github.com/electron/electron/issues/7476 for more information. (Due to time constraints, we opted for packaging and testing directly.)
+
+For more detailed information, please refer to the documentation: [https://www.electron.build/auto-update](https://www.electron.build/auto-update)

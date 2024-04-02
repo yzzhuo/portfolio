@@ -2,13 +2,14 @@ import type { GatsbyConfig } from "gatsby";
 
 const config: GatsbyConfig = {
   siteMetadata: {
-    title: `Yanzhu Zhuo`,
+    title: `June Zhuo`,
     siteUrl: `https://yanzhuzhuo.com`,
     author: {
       name: `June`,
       title: 'Senior Frontend Engineer',
       summary: `I love design and build user-centric products.`,
     },
+    resume: 'https://flowcv.com/resume/au27lmofn4',
     social: {
       github: `https://github.com/yzzhuo`,
       linkedin: 'https://www.linkedin.com/in/yanzhu-zhuo-23b03428b/',
@@ -19,16 +20,18 @@ const config: GatsbyConfig = {
     works: [
       {
         title: 'Tencent',
+        link: 'https://www.tencent.com/en-us',
         role: 'Senior Frontend Engineer',
-        date: '2024 - Present',
-        description: 'Build and maintain critical components used to construct Klaviyo’s frontend, across the whole product. Work closely with cross-functional teams, including developers, designers, and product managers, to implement and advocate for best practices in web accessibility.',
-        technologies: ['JavaScript', 'TypeScript', 'React', 'Storybook']
+        date: '2020 - 2023',
+        description: 'Build a low-code platform for the internal department with Vue.js and Node.js and developed mobile webpage for WeTV e-commerce business live stream events with React.js',
+        technologies: ['Vue', 'TypeScript', 'Node.js', 'MySQL', 'Redis']
       }, {
         title: 'AfterShip',
+        link: 'https://www.aftership.com/',
         role: 'React.js Engineer',
-        date: '2024 - Present',
-        description: 'Build and maintain critical components used to construct Klaviyo’s frontend, across the whole product. Work closely with cross-functional teams, including developers, designers, and product managers, to implement and advocate for best practices in web accessibility.',
-        technologies: ['JavaScript', 'TypeScript', 'React', 'Storybook']
+        date: '2019 - 2020',
+        description: 'Built e-commerce market tool for online shop on Shopify with React.js, Redux and Redux-saga and implement features and wrote unit/E2E tests and collaborated with Scrum.',
+        technologies: ['React.js', 'TypeScript', 'Redux', 'Redux-saga', 'Jest', 'Cypress']
       }
     ],
     projects: [

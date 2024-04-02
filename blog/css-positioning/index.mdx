@@ -1,0 +1,120 @@
+---
+title: "CSS Positioning"
+date: "2016-08-11"
+slug: "css-positioning"
+hero_image: "./p1.jpeg"
+hero_image_alt: "A picture of a dog"
+hero_image_credit_text: "Photo by [Erik Mclean](https://unsplash.com/@introspectivedsgn)"
+hero_image_credit_link: "https://unsplash.com/@introspectivedsgn"
+---
+
+# All About CSS Positioning
+
+As the brisk autumn breeze ushers in a new semester, I find myself standing on the brink of my university journey, where time waits for no one. The seniors, amidst their final year, are busily charting their paths for the future. Just like life's journey, the positioning in CSS often mirrors a struggle between reality and idealism. Building upon our previous discussion of CSS's Visual Formatting Context, let's delve into the intricacies of CSS positioning.
+
+## Overview of CSS Positioning
+
+Once the boxes in CSS are generated, it's time to position them. Generally, CSS offers three positioning schemes:
+
+- Normal Flow:
+  - Boxes are laid out one after the other, with block-level boxes participating in the Block Formatting Context (BFC) and inline-level boxes participating in the Inline Formatting Context (IFC).
+  - Elements with `position: static` or `position: relative`, or `float: none`, trigger the normal flow positioning scheme.
+
+- Absolute Positioning:
+  - Boxes with absolute positioning are removed from the normal flow and don't affect its layout. They are positioned relative to their containing block.
+  - Elements with `position: absolute|fixed` trigger absolute positioning layout.
+
+- Float:
+  - Elements float above the normal flow.
+  - Elements with `float: left|right` trigger float positioning.
+
+### CSS `position` Property
+
+- `static`:
+  - The default value for elements. Positioned within the normal flow layout, cannot be offset using `top`, `bottom`, `left`, `right`, or `z-index`.
+
+- `relative`:
+  - Positioned relative to its default position. Even with an offset, it retains its original position, not affecting the layout of other elements.
+  
+- `absolute`:
+  - Removed from the normal flow, positioned relative to the first parent element with a position other than `static`.
+
+- `fixed`:
+  - Positioned relative to the browser window. Not supported in older versions of IE.
+  
+- `inherit`:
+  - Inherits the `position` property value from its parent element.
+
+**Note:** `static` and `relative` belong to the normal flow, while `fixed` and `absolute` belong to absolute positioning.
+
+### Impact of `display`, `position`, and `float`
+
+Positioning has a mechanism akin to priority:
+
+1. `position: absolute` and `position: fixed` take the highest priority. In their presence, floating is disabled, and `display` is reset according to certain rules.
+
+```html
+<div id="test" style="position: absolute; float: left; display: inline;"></div>
+```
+
+In the above code, since absolute positioning is set, the computed values are: `float: none` (floating disabled) and `display: block`.
+
+2. Elements with non-`none` float will have their `display` value converted according to rules.
+
+```html
+<span style="width: 100px; height: 100px; border: 1px solid red; float: left;">float span</span>
+```
+
+In this code, although the `span` is an inline element, due to the float, its `display` is converted to block.
+
+3. The root element's `display` property is converted according to rules.
+
+4. Finally, for non-root, non-floating, and non-absolutely positioned elements, the positioning is determined based on the `display` property.
+
+**The above reflects a critical point: floated or absolutely positioned elements can only be block-level or table elements.** For non-block or non-table elements, when applying absolute positioning or float, they will follow certain rules for conversion.
+
+## Normal Flow
+
+Each box in the normal flow belongs to a formatting context. Different elements determine how they are laid out in the current environment. Block boxes participate in Block Formatting Context (BFC), while inline boxes participate in Inline Formatting Context (IFC).
+
+### Block Formatting Context (BFC)
+
+In BFC, boxes are laid out vertically one after the other, with adjacent block elements having their vertical margins collapsed.
+
+### Inline Formatting Context (IFC)
+
+In IFC, boxes are laid out horizontally, starting from the top of the containing block. Horizontal margins, borders, and paddings between boxes are respected. These boxes align vertically in various ways.
+
+IFC involves several concepts, including line boxes and their size calculations, alignment of inline-level boxes, and more.
+
+Understanding the baseline, line-height, and vertical-align principles are crucial. This topic warrants a deeper dive, which we'll reserve for another time to avoid overwhelming you with information in a single post.
+
+## Floats
+
+Floating elements depart from the normal flow and can cause content (line boxes) to wrap around them. Text wrapping effects are achieved using floats. Clearing the element using the `clear` property ensures content doesn't wrap around floated elements.
+
+```html
+<p style="margin: 2em; border: 1px solid red; width: 200px;">
+<span style="width: 100px; height: 100px; background-color: green; margin: 20px; float: left;"></span>
+The IMG box is floated to the left. The content that follows is formatted to the right of the float, starting on the same line as the float.
+</p>
+```
+
+**Positioning of Floated Boxes:**
+A floated box floats left or right until its outer edge touches the containing block's edge or another floated box's outer edge.
+
+**Impact of Floats on Other Boxes:**
+Floating boxes do not affect the layout of boxes in the normal flow. However, line boxes created after a floated box will be shortened.
+
+For table elements, block-level replaced elements, BFC elements, and floating elements, they cannot overlap any floating elements.
+
+## Absolute Positioning
+
+Absolutely positioned elements are positioned relative to their containing block, as discussed in the previous post.
+
+Absolute-positioned boxes can be thought of as separate layers and do not affect the positioning of other boxes.
+
+- **Note:** When absolutely positioned elements are not offset, they remain in their default positions within the normal flow.
+
+References:
+- [CSS Specification](https://www.w3.org/TR/2011/REC-CSS2-20110607/)

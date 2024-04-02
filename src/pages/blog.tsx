@@ -20,20 +20,22 @@ const BlogPage = ({data}: {
 }) => {
   return (
     <Layout pageTitle="Blogs">
+      <div className="flex flex-col gap-8">
         {
-          data.allMdx.nodes.map(node => (
-            <article key={node.id}>
-              <h3>
-                <Link to={`/blog/${node.frontmatter.slug}`} className="no-underline font-bold">
-                  {node.frontmatter.title}
-                </Link>
-                </h3>
-                <div className="text-sm">
-                  <span>{node.frontmatter.date}</span>
-                </div>
-            </article>
-          ))
-        }
+            data.allMdx.nodes.map(node => (
+              <article key={node.id} className="flex justify-between border-b-2 border-gray-100 pb-4">
+                <h3 className="text-lg">
+                  <Link to={`/blog/${node.frontmatter.slug}`} className="no-underline font-bold hover:text-primary">
+                    {node.frontmatter.title}
+                  </Link>
+                  </h3>
+                  <div className="text-sm text-gray-500 font-thin">
+                    <span>{node.frontmatter.date}</span>
+                  </div>
+              </article>
+            ))
+          }
+      </div>
     </Layout>
   )
 }

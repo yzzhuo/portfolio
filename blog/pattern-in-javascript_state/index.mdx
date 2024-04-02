@@ -1,0 +1,103 @@
+---
+title: Design Pattern in JavaScript - State Pattern
+date: "2017-06-23"
+slug: "design-patterns-in-javascript-state-pattern"
+---
+
+The state pattern allows an object to alter its behavior when its internal state changes, making it appear as if the object changed its class.
+
+The primary problem solved by the state pattern is when the conditional expressions controlling an object's state transitions become overly complex. By moving the state logic into a series of classes representing different states, the complexity of the conditional logic can be simplified.
+
+## Example
+
+```javascript
+var Light = function() {
+  this.state = 'off';
+  this.button = null;
+};
+Light.prototype.init = function() {
+  var button = document.createElement('button'),
+      self = this;
+  button.innerHTML = 'Toggle';
+  this.button = document.body.appendChild(button);
+  this.button.onClick = function() {
+    self.buttonWasPressed();
+  }
+}
+Light.prototype.buttonWasPressed = function() {
+  if(this.state === 'off') {
+    console.log('Turn on the light');
+    this.state = 'on'
+  } else if(this.state === 'on') {
+    console.log('Dim light');
+    this.state = 'weakLight'
+  } else if (this.state === 'weakLight') {
+     console.log('Bright light');
+     this.state = 'strongLight'
+  } else if (this.state === 'strongLight') {
+    console.log('Turn off the light');
+    this.state = 'off';
+  }
+}
+var light = new Light();
+light.init();
+```
+
+Using the state pattern to encapsulate the states of a class:
+
+```javascript
+var OffLightState = function(light) {
+  this.light = light;
+}
+OffLightState.prototype.buttonWasPressed = function() {
+  console.log('Dim light');
+  this.light.setState(this.light.weakLightState);
+}
+var WeakLightState = function(light){
+ this.light = lightl 
+}
+WeakLightState.prototype.buttonWasPressed = function(light) {
+  console.log('Bright light');
+  this.light.setState(this.light.strongLightState);
+}
+var StrongLightState = function(light) {
+  this.light = light;
+}
+StrongLightState.prototype.buttonWasPressed = function(light) {
+  console.log('Turn off the light');
+  this.light.setState(this.light.offLightState);
+};
+
+// Light class
+var Light = function() {
+  this.offLightState = new OffLightState(this);
+  this.weakLightState = new WeakLightState(this);
+  this.strongLightState = new StrongLightState(this);
+  this.button = null;
+}
+Light.prototype.init = function() {
+  var button = document.createElement('button');
+  self = this;
+  this.button = document.body.appendChild(button);
+  this.button.innerHTML ='Toggle';
+  this.currState = this.offLightState;
+  this.button.onclick = function() {
+    self.currState.buttonWasPressed();
+  }
+}
+Light.prototype.setState = function(newState) {
+  this.currState = newState;
+}
+```
+
+In practice, it's best for the states of an object to implement the same interface or abstract class to enforce the implementation of the `buttonWasPressed` method for each state.
+
+## Benefits and Use Cases
+
+Although the state pattern may seem like a lot of work with numerous state classes, it localizes the relationship between each state and its corresponding behavior. These behaviors are scattered and encapsulated within their respective state classes, making the code more readable and manageable. To some extent, it also eliminates a significant amount of conditional branching. Even if a new state needs to be added later, we only need to introduce a new state class and add the corresponding state transition logic, without violating the "open-closed principle".
+
+The state pattern is suitable when an object's behavior depends on its state, and it must dynamically change its behavior based on state changes at runtime.
+
+## Comparison with the Strategy Pattern
+
+The strategy pattern and the state pattern are quite similar. They both involve a context, some strategy or state classes, and the context delegates requests to these classes for execution, thereby eliminating a lot of conditional branching. The difference lies in the fact that in the strategy pattern, the various strategy classes are equal and independent of each other, with the client needing to be aware of these strategy classes' existence and actively switch algorithms. In contrast, in the state pattern, both the state and its corresponding behavior are encapsulated, and state transitions have already been completed. The "change of behavior" occurs internally in the state pattern, so the client doesn't need to know these details.

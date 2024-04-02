@@ -2,6 +2,7 @@ import * as React from "react"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import { Link, graphql } from 'gatsby'
+import { getImage, GatsbyImage } from 'gatsby-plugin-image'
 
 const ProjectPage = ({data}: {
   data: {
@@ -20,19 +21,28 @@ const ProjectPage = ({data}: {
 }) => {
   return (
     <Layout pageTitle="Projects">
+      <div className="grid grid-cols-2 gap-x-2 gap-y-4">
         {
-          data.allMdx.nodes.map(node => (
-            <article key={node.id}>
-              <h2>
-                <Link to={`/project/${node.frontmatter.slug}`}>
-                  {node.frontmatter.title}
-                </Link>
-                </h2>
-              <p>Posted: {node.frontmatter.date}</p>
-              <p>{node.excerpt}</p>
-            </article>
-          ))
-        }
+            data.allMdx.nodes.map(node => {
+              const data = node.frontmatter
+              const image = getImage(data.hero_image)
+
+              return (
+                <div key={node.id} className="relative group w-96 text-white shadow-xl bg-black rounded-xl">
+                  <a href={data.repo} target="_blank" rel="noreferrer">
+                    <figure className="rounded-xl overflow-hidden w-full h-64">
+                      <GatsbyImage className="h-full" image={image}  objectFit="contain"/>
+                    </figure>
+                    <div className="absolute top-0 h-full px-2 py-4 hover:bg-black/60 rounded-xl flex flex-col justify-end">
+                        <h2 className="card-title">{node.frontmatter.title}</h2>
+                        <p className="hidden group-hover:block">{node.excerpt}</p>
+                    </div>
+                  </a>
+                </div>
+            )
+          })
+          }
+      </div>
     </Layout>
   )
 }
@@ -52,6 +62,12 @@ export const query = graphql`
           date(formatString: "MMMM D, YYYY")
           title
           slug
+          repo          
+          hero_image {
+            childImageSharp {
+              gatsbyImageData
+            }
+          }
         }
         id
         excerpt

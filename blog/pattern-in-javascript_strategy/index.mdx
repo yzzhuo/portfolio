@@ -1,0 +1,101 @@
+---
+title: Design Pattern in JavaScript - Strategy Pattern
+date: "2017-07-10"
+slug: "design-patterns-in-javascript-strategy-pattern"
+---
+
+## Definition
+
+The Strategy Pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. This pattern lets the algorithm vary independently from clients that use it.
+
+The purpose of the Strategy Pattern is to separate the use of an algorithm from its implementation. Algorithms can be interchanged at any time, which is the point of variation. Encapsulating points of variation is an essential way of thinking in object-oriented programming.
+
+## Example
+
+Determining employee bonuses based on performance appraisal levels.
+
+```javascript
+var calculateBonus = function(performanceLevel, salary) {
+    if (performanceLevel === 'S') {
+        return salary * 4;
+    }
+    if (performanceLevel === 'A') {
+        return salary * 3;
+    }
+    if (performanceLevel === 'B') {
+        return salary * 2;
+    }
+}
+calculateBonus('B', 20000);
+calculateBonus('S', 6000);
+```
+
+Code refactored using composition functions and the Strategy Pattern (mimicking object-oriented languages):
+
+```javascript
+// Function to encapsulate algorithms
+var performanceS = function(){};
+performanceS.prototype.calculate = function(salary) {
+    return salary * 4;
+};
+var performanceA = function(){};
+performanceA.prototype.calculate = function(salary) {
+    return salary * 3;
+}
+var performaceB = function(){};
+performanceB.prototype.calculate = function(salary) {
+    return salary * 2;	
+}
+
+// Bonus class
+var Bonus = function(){
+    this.salary = null; // Base salary
+    this.strategy = null; // Strategy object corresponding to performance level
+};
+Bonus.prototype.setSalary = function(salary) {
+    this.salary = salary;
+}
+Bonus.prototype.setStrategy = function(strategy) {
+    this.strategy = strategy;
+}
+Bonus.prototype.getBonus = function() {
+    return this.strategy.calculate(this.salary);
+};
+
+// Calculate bonus
+var bonus = new Bonus();
+bonus.setSalary(10000);
+bonus.setStrategy(new performanceS());
+console.log(bonus.getBonus()); // 40000
+bonus.setStrategy(new performanceA());
+console.log(bonus.getBonus()); // 30000
+```
+
+Refactored using the Strategy Pattern in JavaScript:
+
+```javascript
+var strategies = {
+    "S": function(salary) {
+        return salary * 4;
+    },
+    "A": function(salary) {
+        return salary * 3;	
+    },
+    "B": function(salary) {
+        return salary * 2;	
+    }
+}
+var calculateBonus = function(level, salary) {
+    return strategies[level](salary);
+}
+console.log(calculateBonus('S', 2000)); // 8000
+console.log(calculateBonus('A', 10000)); // 30000
+```
+
+(The second implementation is much more concise, but it may face the problem of a bloated function once there are many strategies. Therefore, it's suitable only for cases with a limited number of simple algorithms.)
+
+## Advantages and Summary
+
+The Strategy Pattern reduces coupling between various algorithms and the class that uses them. Implementing the Strategy Pattern in object-oriented languages means each algorithm has its own class, making unit testing easier. When different behaviors pile up in one class or function, it's challenging to avoid using conditional statements to select the appropriate behavior. Encapsulating these behaviors in independent Strategy classes can eliminate conditional statements in the classes that use them. Although the Strategy Pattern is typically used to encapsulate algorithms, in practice, we can use it to encapsulate almost any type of rule. Whenever there's a need to apply different business rules at different times, consider using the Strategy Pattern to handle this potential change.
+
+However, in the basic Strategy Pattern, the responsibility of selecting a specific implementation lies with the client-side object, which then delegates it to the Strategy Pattern's Context object. This itself doesn't relieve the client-side of the burden of selection and judgment. By combining the Strategy Pattern with the Simple Factory Pattern, the responsibility of selecting a specific implementation can also be assumed by the context, thereby minimizing the client's responsibility. Using the Strategy Pattern for the same requirement can result in smaller changes.
