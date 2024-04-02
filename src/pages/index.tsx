@@ -16,7 +16,7 @@ const IndexPage: React.FC<PageProps> = ({data}) => {
         <StaticImage
             class="w-24 h-24 rounded-full"
             alt="June's avatar"
-            src="../images/june.jpg"
+            src="../images/avatar.jpg"
           />
         <h1 className="mt-4 mb-2 text-3xl font-bold">Hi, I'm {author.name}👋</h1>
         <p className="mt-0 pt-0">{author.summary}</p>
