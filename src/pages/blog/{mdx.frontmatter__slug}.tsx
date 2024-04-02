@@ -3,6 +3,7 @@ import Layout from '../../components/layout';
 import Seo from '../../components/seo';
 import { graphql } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image'
+require("prismjs/themes/prism-tomorrow.css")
 
 const BlogPost = ({data, children}: {
   data: {
