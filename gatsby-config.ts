@@ -60,7 +60,36 @@ const config: GatsbyConfig = {
         path: `${__dirname}/project`,
       }
     },
-    "gatsby-plugin-mdx",
+    {
+      resolve:"gatsby-plugin-mdx",
+      options: {
+        extensions: [".mdx", ".md"],
+        gatsbyRemarkPlugins: [
+          {
+            resolve: 'gatsby-remark-prismjs',
+            options: {
+              classPrefix: 'language-',
+              inlineCodeMarker: null,
+              aliases: {},
+              languageExtensions: [
+                {
+                  language: "superscript",
+                  extend: "javascript",
+                  definition: {
+                    superscript_types: /(SuperType)/,
+                  },
+                  insertBefore: {
+                    function: {
+                      superscript_keywords: /(superif|superelse)/,
+                    },
+                  },
+                },
+              ],
+            }
+          }
+        ],
+      }
+    },
     "gatsby-transformer-sharp",
   ]
 };
