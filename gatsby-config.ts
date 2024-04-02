@@ -10,7 +10,7 @@ const config: GatsbyConfig = {
       summary: `I love design and build user-centric products.`,
     },
     resume: 'https://flowcv.com/resume/au27lmofn4',
-    social: {
+    socialAccounts: {
       github: `https://github.com/yzzhuo`,
       linkedin: 'https://www.linkedin.com/in/yanzhu-zhuo-23b03428b/',
       dribbble: `https://dribbble.com/junerzyz`,

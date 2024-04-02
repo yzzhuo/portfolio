@@ -56,7 +56,7 @@ const IndexPage: React.FC<PageProps> = ({data}) => {
               const data = project.frontmatter
               const image = getImage(data.hero_image)
               return (
-                <div className="w-full h-32 flex items-center shadow-md p-2 rounded-2xl hover:ring-2 cursor-pointer gap-4">
+                <a href={data.repo} key={project.id} target="_blank" rel="noreferrer" className="w-full h-32 flex items-center shadow-md p-2 rounded-2xl hover:ring-2 cursor-pointer gap-4">
                   <figure className="w-40 my-0 h-28">
                     <GatsbyImage image={image}  className="h-full" objectFit="contain"/>
                   </figure>
@@ -64,7 +64,7 @@ const IndexPage: React.FC<PageProps> = ({data}) => {
                     <h4 className="text-lg font-bold mt-0">{data.title}</h4>
                     <p>{data.summary}</p>
                   </div>
-              </div>
+              </a>
               )
             })
           }
@@ -81,11 +81,11 @@ const IndexPage: React.FC<PageProps> = ({data}) => {
               blogs.map((blog, index) => {
                 const data = blog.frontmatter
                 return (
-                  <li key={data.slug} className="flex justify-between items-center p-0 m-0">
+                  <li key={data.slug} className="flex justify-between items-center p-0 m-0 hover:text-primary font-semibold">
                     <Link to={`/blog/${data.slug}`} className="no-underline text-md">
                       {data.title}
                     </Link>
-                    <aside className="text-sm">{data.date}</aside>
+                    <aside className="text-sm font-thin">{data.date}</aside>
                   </li>
                 )
               })
@@ -133,6 +133,7 @@ export const query = graphql`
         frontmatter {
           date(formatString: "MMMM D, YYYY")
           title
+          repo
           slug
           summary
           hero_image {
