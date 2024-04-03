@@ -65,6 +65,7 @@ const config: GatsbyConfig = {
       options: {
         extensions: [".mdx", ".md"],
         gatsbyRemarkPlugins: [
+          `gatsby-transformer-remark`,
           {
             resolve: "gatsby-remark-images",
             options: {
