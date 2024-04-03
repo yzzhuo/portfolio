@@ -86,20 +86,6 @@ const config: GatsbyConfig = {
             classPrefix: 'language-',
             inlineCodeMarker: null,
             aliases: {},
-            languageExtensions: [
-              {
-                language: "superscript",
-                extend: "javascript",
-                definition: {
-                  superscript_types: /(SuperType)/,
-                },
-                insertBefore: {
-                  function: {
-                    superscript_keywords: /(superif|superelse)/,
-                  },
-                },
-              },
-            ],
           }
         }]
       }

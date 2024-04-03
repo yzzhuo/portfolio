@@ -1,6 +1,5 @@
 import * as React from "react"
 import { Link, useStaticQuery, graphql } from "gatsby"
-import "../styles/main.scss"
 
 const Layout = ({pageTitle, children} : {
   pageTitle?: string,
