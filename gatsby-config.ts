@@ -46,6 +46,7 @@ const config: GatsbyConfig = {
     "gatsby-plugin-image",
     "gatsby-plugin-sharp",
     "gatsby-plugin-postcss", 
+    "gatsby-plugin-sass",
     {
       resolve: "gatsby-source-filesystem",
       options: {
