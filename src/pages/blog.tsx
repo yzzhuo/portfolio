@@ -23,7 +23,7 @@ const BlogPage = ({data}: {
       <div className="flex flex-col gap-8">
         {
             data.allMdx.nodes.map(node => (
-              <article key={node.id} className="flex justify-between border-b-2 border-gray-100 pb-4">
+              <article key={node.id} className="flex flex-col md:flex-row justify-between border-b-2 border-gray-100 pb-4">
                 <h3 className="text-lg">
                   <Link to={`/blog/${node.frontmatter.slug}`} className="no-underline font-bold hover:text-primary">
                     {node.frontmatter.title}

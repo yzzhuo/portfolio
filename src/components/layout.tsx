@@ -46,7 +46,7 @@ const Layout = ({pageTitle, children} : {
           </ul>
       </div>
       </nav>
-      <main className="py-8">
+      <main className="py-12 px-8">
         {pageTitle && <h2 className="mt-4 mb-12 text-2xl font-bold text-center text-primary">{pageTitle}</h2>}
         {children}
       </main>

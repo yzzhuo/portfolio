@@ -19,22 +19,22 @@ const IndexPage: React.FC<PageProps> = ({data}) => {
             src="../images/avatar.jpg"
           />
         <h1 className="mt-4 mb-2 text-3xl font-bold">Hi, I'm {author.name}👋</h1>
-        <p className="mt-0 pt-0">{author.summary}</p>
+        <p className="mt-0 pt-0 text-center">{author.summary}</p>
       </div>
        
        <section className="mt-12">
           <h3 className="font-bold text-xl py-4">EXPERIENCE</h3>
           {
             works.map((work, index) => (
-              <div key={index} className="grid grid-cols-12 flex-nowrap mb-8">
-                <header aria-label={work.date} className="text-sm col-span-3">{work.date}</header>
-                <div className="col-span-9">
+              <div key={index} className="grid grid-cols-12 flex-nowrap mb-8 gap-2">
+                <header aria-label={work.date} className="text-sm md:col-span-3 col-span-12">{work.date}</header>
+                <div className="md:col-span-9 col-span-12">
                   <header className="flex gap-4 items-center">
                     <h4 className="text-lg font-bold mt-0">{work.role}</h4> 
                     <a className="underline cursor-pointer" href={work.link} target="_blank" rel="noreferrer">@{work.title}</a>
                   </header>
                   <p className="mt-0 text-sm">{work.description}</p>
-                  <ul className="mt-2 flex gap-2 ml-0 pl-0">
+                  <ul className="mt-2 flex gap-2 ml-0 pl-0 flex-wrap">
                     {work.technologies.map((tech, index) => (
                       <li className="badge badge-sm badge-primary" key={index}>{tech}</li>
                     ))}
@@ -57,12 +57,12 @@ const IndexPage: React.FC<PageProps> = ({data}) => {
               const image = getImage(data.hero_image)
               return (
                 <a href={data.repo} key={project.id} target="_blank" rel="noreferrer" className="w-full h-32 flex items-center shadow-md p-2 rounded-2xl hover:ring-2 cursor-pointer gap-4">
-                  <figure className="w-40 my-0 h-28">
-                    <GatsbyImage image={image}  className="h-full" objectFit="contain"/>
+                  <figure className="w-1/4 my-0 h-28 5">
+                    <GatsbyImage image={image}  className="h-full w-full" objectFit="contain"/>
                   </figure>
-                  <div className="pl-4">
-                    <h4 className="text-lg font-bold mt-0">{data.title}</h4>
-                    <p>{data.summary}</p>
+                  <div className="pl-4 flex-auto w-3/4">
+                    <h4 className="text-base md:text-lg font-bold mt-0 text-ellipsis overflow-hidden">{data.title}</h4>
+                    <p className="text-sm hidden md:block">{data.summary}</p>
                   </div>
               </a>
               )
@@ -81,7 +81,7 @@ const IndexPage: React.FC<PageProps> = ({data}) => {
               blogs.map((blog, index) => {
                 const data = blog.frontmatter
                 return (
-                  <li key={data.slug} className="flex justify-between items-center p-0 m-0 hover:text-primary font-semibold">
+                  <li key={data.slug} className="flex flex-col gap-2 md:flex-row items-start justify-between md:items-center p-0 m-0 hover:text-primary font-semibold">
                     <Link to={`/blog/${data.slug}`} className="no-underline text-md">
                       {data.title}
                     </Link>

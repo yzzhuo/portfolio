@@ -21,14 +21,14 @@ const ProjectPage = ({data}: {
 }) => {
   return (
     <Layout pageTitle="Projects">
-      <div className="grid grid-cols-2 gap-x-2 gap-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-4 justify-center">
         {
             data.allMdx.nodes.map(node => {
               const data = node.frontmatter
               const image = getImage(data.hero_image)
 
               return (
-                <div key={node.id} className="relative group w-96 text-white shadow-xl bg-black rounded-xl">
+                <div key={node.id} className="relative group max-w-screen text-white shadow-xl bg-black rounded-xl">
                   <a href={data.repo} target="_blank" rel="noreferrer">
                     <figure className="rounded-xl overflow-hidden w-full h-64">
                       <GatsbyImage className="h-full" image={image}  objectFit="contain"/>
