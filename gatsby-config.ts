@@ -68,21 +68,16 @@ const config: GatsbyConfig = {
         gatsbyRemarkPlugins: [
           `gatsby-transformer-remark`,
           `gatsby-remark-prismjs`,
-          {
-            resolve: "gatsby-remark-images",
-            options: {
-              maxWidth: 590,
-            }
-          },
         ],
       }
     },
     {
       resolve: `gatsby-transformer-remark`,
       options: {
-        plugins: [{
-          resolve: 'gatsby-remark-prismjs',
-          options: {
+        plugins: [
+          {
+            resolve: `gatsby-remark-prismjs`,
+            options: {
             classPrefix: 'language-',
             inlineCodeMarker: null,
             aliases: {},
