@@ -66,35 +66,41 @@ const config: GatsbyConfig = {
         extensions: [".mdx", ".md"],
         gatsbyRemarkPlugins: [
           `gatsby-transformer-remark`,
+          `gatsby-remark-prismjs`,
           {
             resolve: "gatsby-remark-images",
             options: {
               maxWidth: 590,
             }
           },
-          {
-            resolve: 'gatsby-remark-prismjs',
-            options: {
-              classPrefix: 'language-',
-              inlineCodeMarker: null,
-              aliases: {},
-              languageExtensions: [
-                {
-                  language: "superscript",
-                  extend: "javascript",
-                  definition: {
-                    superscript_types: /(SuperType)/,
-                  },
-                  insertBefore: {
-                    function: {
-                      superscript_keywords: /(superif|superelse)/,
-                    },
+        ],
+      }
+    },
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        plugins: [{
+          resolve: 'gatsby-remark-prismjs',
+          options: {
+            classPrefix: 'language-',
+            inlineCodeMarker: null,
+            aliases: {},
+            languageExtensions: [
+              {
+                language: "superscript",
+                extend: "javascript",
+                definition: {
+                  superscript_types: /(SuperType)/,
+                },
+                insertBefore: {
+                  function: {
+                    superscript_keywords: /(superif|superelse)/,
                   },
                 },
-              ],
-            }
+              },
+            ],
           }
-        ],
+        }]
       }
     },
     "gatsby-transformer-sharp",
